@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<script>
+$(document).ready(function(){
+    $("#submitrequest").click(function(){
+    	var customerid=$("#customerid").val();
+        $.ajax({url: "/uplus/getdata?type=cabrequest&id="+customerid, success: function(result){
+            $("#outputdiv").html(result);
+        }});
+    });
+});
+</script>
+<meta charset="UTF-8">
+<title>Customer's Dashboard</title>
+</head>
+<body>
+
+
+<div id="div1">
+
+<p> Enter CustomerId: </p>
+<input type="input" id="customerid" name="customerid"></input>
+<br/>
+<br/>
+<button type="button" id="submitrequest">Submit Cab Request!</button>
+
+</div>
+<br/>
+<div id="outputdiv">
+	
+</div>
+
+
+</body>
+</html>

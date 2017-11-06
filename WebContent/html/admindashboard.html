@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<script>
+function refreshdataa()
+{
+}
+$(document).ready(function(){
+	$('#refreshdata').click(function() {
+	    $.ajax({
+	        type: 'GET',
+	        url: '/uplus/getdata?type=admindashboard',
+	       // data: $('#cityDetails').serialize(),
+	        dataType:"json", //to parse string into JSON object,
+	        success: function(data){ 
+	            if(data){
+	            	$("#table").html("<tr>"+"<th>RequestId</th><th>CustomerId</th><th>TimeElapsed</th> <th>status</th><th>driver</th</tr>");
+	                var len = data.length;
+	                var txt = "";
+	                //debugger;
+  					  if(len > 0){
+	                	
+	                    for(var i=0;i<len;i++){
+	                        if(data[i].requestid || data[i].customerid  ){
+	                            txt += "<tr><td>"+data[i].requestid+"</td><td>"+data[i].customerid+"</td>";
+	                        }
+	                        if(data[i].timeelapsed || data[i].status || data[i].driver  ){
+	                            txt += "<td>"+data[i].timeelapsed+"</td><td>"+data[i].status+"</td>"+"</td><td>"+data[i].driver+"</td></tr>";
+	                        }
+	                    }
+	                    if(txt != ""){
+	                        $("#table").append(txt).removeClass("hidden");
+	                    }
+	                }
+	                
+	            }
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+	        	console.log("Error occurred");
+	          //  alert('error: ' + textStatus + ': ' + errorThrown);
+	        }
+	    });
+	    return false;//suppress natural form submission
+	});
+});
+</script>
+<meta charset="UTF-8">
+<title>Admin's Dashboard</title>
+</head>
+<body>
+<input type="button" id="refreshdata" value="Refresh dashboard"></input>
+<p><b>Cab Requests made by Customers and the current status</b></p>
+
+<div id="requests">
+	<table id="table" class="hidden">
+    <tr>
+        <th>RequestId</th>
+        <th>CustomerId</th>
+         <th>Request Status</th> 
+         <th>Request Time</th>
+         <th>PickUp Time</th>
+         <th>Completed Time</th>
+		<th>Select this request</th>
+    </tr>
+</table>
+
+</div>
+
+
+</body>
+</html>
